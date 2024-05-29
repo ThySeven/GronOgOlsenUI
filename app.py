@@ -1,16 +1,33 @@
-from flask import Flask, send_file, render_template_string
+from flask import Flask, render_template_string, send_file
 
 app = Flask(__name__)
 
-# Updated route to serve the HTML page
 @app.route('/')
-def index():
-    return render_template_string(open('index.html').read())
+def show_forside():
+    return render_index_with_image('/static/forside.png')
 
-# Route to serve the image
-@app.route('/image')
-def show_image():
-    return send_file('go.png', mimetype='image/png')
+@app.route('/auctions')
+def show_auctions():
+    return render_index_with_image('/static/auctions.png')
+
+@app.route('/auction')
+def show_auction():
+    return render_index_with_image('/static/auction.png')
+
+@app.route('/bydauction')
+def show_bydauction():
+    return render_index_with_image('/static/bydauction.png')
+
+
+# Serve static images
+@app.route('/static/<path:filename>')
+def static_files(filename):
+    return send_file(filename, mimetype='image/png')
+
+def render_index_with_image(image_src):
+    with open('index.html') as f:
+        html_content = f.read()
+        return render_template_string(html_content, image_src=image_src)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

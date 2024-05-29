@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grøn og Olsen Auktionshus</title>
+    <title>Full-Screen Image</title>
     <style>
         html, body {
             margin: 0;
@@ -25,6 +25,16 @@
     </style>
 </head>
 <body>
-    <img src="/image" alt="Image">
+    <img id="dynamicImage" src="{{ image_src }}" alt="Image">
+    <script>
+        const images = ['/static/forside.png', '/static/auctions.png', '/static/auction.png', 'static/bydauction.png'];
+        let currentIndex = images.indexOf('{{ image_src }}');
+        
+        const dynamicImage = document.getElementById('dynamicImage');
+        dynamicImage.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            dynamicImage.src = images[currentIndex];
+        });
+    </script>
 </body>
 </html>
